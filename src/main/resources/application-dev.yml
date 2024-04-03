@@ -1,0 +1,17 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.144.238.26:3306/mu-admin?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai&autoReconnect=true&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 1226Sg@
+
+
+  data:
+    redis:
+      host: 192.144.238.26
+      port: 6379
+      database: 0
+      password: 123456

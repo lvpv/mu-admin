@@ -6,6 +6,8 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.models.GroupedOpenApi;
@@ -22,10 +24,10 @@ import java.util.Map;
  * @author lvpb
  * @version 1.0.0
  * @date 2024/4/3 18:00
- * @description SwaggerConfiguration Description
+ * @description 接口文档配置
  */
 @Configuration
-@EnableConfigurationProperties({SwaggerProperties.class, SecurityProperties.class})
+@EnableConfigurationProperties({SwaggerProperties.class})
 @ConditionalOnProperty(prefix = "springdoc.api-docs", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerConfiguration {
 
@@ -52,12 +54,14 @@ public class SwaggerConfiguration {
 
 
     @Bean
-    public GroupedOpenApi systemGroupOpenApi() {
+    public GroupedOpenApi systemGroupOpenApi(SecurityProperties securityProperties) {
         return GroupedOpenApi.builder()
                 .group("system")
                 .displayName("系统管理")
                 .pathsToMatch("/system/**")
                 .packagesToScan("com.lvpb.mu.modules.system")
+                .addOperationCustomizer((operation, handlerMethod) -> operation
+                        .addParametersItem(buildSecurityHeaderParameter(securityProperties)))
                 .build();
     }
 
@@ -65,10 +69,21 @@ public class SwaggerConfiguration {
     private Map<String, SecurityScheme> buildSecuritySchemes(SecurityProperties securityProperties) {
         Map<String, SecurityScheme> securitySchemes = new HashMap<>();
         SecurityScheme securityScheme = new SecurityScheme()
-                .type(SecurityScheme.Type.APIKEY) // 类型
-                .name(securityProperties.getTokenName()) // 请求头的 name
-                .in(SecurityScheme.In.HEADER); // token 所在位置
+                // 类型
+                .type(SecurityScheme.Type.APIKEY)
+                // 请求头的 name
+                .name(securityProperties.getTokenName())
+                // token 所在位置
+                .in(SecurityScheme.In.HEADER);
         securitySchemes.put(HttpHeaders.AUTHORIZATION, securityScheme);
         return securitySchemes;
+    }
+
+    private static Parameter buildSecurityHeaderParameter(SecurityProperties securityProperties) {
+        return new Parameter()
+                .name(securityProperties.getTokenName())
+                .description("认证Token")
+                .in(String.valueOf(SecurityScheme.In.HEADER))
+                .schema(new StringSchema()._default("Bearer test1").name(securityProperties.getTokenName()).description("认证 Token"));
     }
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lvpb.mu.modules.system.mapper.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.lvpb.mu.modules.system.domain.entity.Menu">
+        <!--@mbg.generated-->
+        <!--@Table system_menu-->
+        <id column="menu_id" jdbcType="BIGINT" property="menuId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="component" jdbcType="VARCHAR" property="component"/>
+        <result column="permission" jdbcType="VARCHAR" property="permission"/>
+        <result column="frame" jdbcType="BOOLEAN" property="frame"/>
+        <result column="frame_url" jdbcType="VARCHAR" property="frameUrl"/>
+        <result column="keep_alive" jdbcType="BOOLEAN" property="keepAlive"/>
+        <result column="hide" jdbcType="BOOLEAN" property="hide"/>
+        <result column="always_show" jdbcType="BOOLEAN" property="alwaysShow"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+        <result column="status" jdbcType="BOOLEAN" property="status"/>
+        <result column="creator" jdbcType="BIGINT" property="creator"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="updater" jdbcType="BIGINT" property="updater"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        menu_id, `name`, `type`, parent_id, sort, `path`, icon, component, permission, frame,
+        frame_url, keep_alive, hide, always_show, deleted, `status`, creator, create_time,
+        updater, update_time
+    </sql>
+
+    <select id="findMenusByRoleIds" resultMap="BaseResultMap" parameterType="collection">
+        SELECT
+        menu_id,
+        `name`,
+        `type`,
+        parent_id,
+        sort,
+        `path`,
+        icon,
+        component,
+        permission,
+        frame,
+        frame_url,
+        keep_alive,
+        hide,
+        always_show,
+        deleted,
+        `status`,
+        creator,
+        create_time,
+        updater,
+        update_time
+        FROM
+        system_menu
+        WHERE
+        deleted = 0
+        AND menu_id IN (
+        SELECT
+        menu_id
+        FROM
+        system_role_menu
+        WHERE
+        system_role_menu.deleted = 0
+        AND system_role_menu.role_id IN <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+        #{roleId}
+    </foreach>)
+    </select>
+</mapper>

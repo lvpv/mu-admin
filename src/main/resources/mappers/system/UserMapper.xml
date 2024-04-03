@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lvpb.mu.modules.system.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.lvpb.mu.modules.system.domain.entity.User">
+    <!--@mbg.generated-->
+    <!--@Table `system_user`-->
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="admin" jdbcType="BOOLEAN" property="admin" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="pwd_last_update_time" jdbcType="TIMESTAMP" property="pwdLastUpdateTime" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="deleted" jdbcType="BOOLEAN" property="deleted" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updater" jdbcType="BIGINT" property="updater" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    user_id, username, `password`, avatar, gender, `admin`, real_name, last_login_time, 
+    pwd_last_update_time, mobile, email, deleted, `status`, creator, create_time, updater, 
+    update_time
+  </sql>
+</mapper>

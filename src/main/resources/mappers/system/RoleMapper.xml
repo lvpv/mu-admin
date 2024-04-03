@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lvpb.mu.modules.system.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.lvpb.mu.modules.system.domain.entity.Role">
+        <!--@mbg.generated-->
+        <!--@Table system_role-->
+        <id column="role_id" jdbcType="BIGINT" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="internal" jdbcType="BOOLEAN" property="internal"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+        <result column="status" jdbcType="BOOLEAN" property="status"/>
+        <result column="creator" jdbcType="BIGINT" property="creator"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="updater" jdbcType="BIGINT" property="updater"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        role_id, role_name, role_code, internal, remark, deleted, `status`, creator, create_time,
+        updater, update_time
+    </sql>
+
+    <select id="findRolesByUserId" resultMap="BaseResultMap">
+        SELECT
+        role_id,
+        role_name,
+        role_code,
+        internal,
+        remark,
+        deleted,
+        `status`,
+        creator,
+        create_time,
+        updater,
+        update_time
+        FROM
+        system_role
+        WHERE
+        system_role.role_id IN ( SELECT system_user_role.role_id FROM system_user_role WHERE user_id =
+        #{userId,jdbcType=BIGINT} AND system_user_role.deleted = 0 )
+        AND system_role.deleted = 0;
+    </select>
+</mapper>
