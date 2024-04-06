@@ -16,18 +16,19 @@ import lombok.Getter;
 public enum ErrorCode implements ResultCode {
 
     // Serve
-    REQUEST_PARAMS_NOT_EXIST(400001,"缺少请求参数！"),
-    REQUEST_PARAMS_IS_NULL(400002,"请求参数为空！"),
-    REQUEST_PARAMS_TYPE_ERROR(400003,"请求参数类型错误！"),
-    REQUEST_PARAMS_ERROR(400004,"请求参数错误！"),
-    REQUEST_DATE_NOT_EXIST(400005,"请求数据不存在！"),
-    NOT_LOGIN(401000,"账号未登录！"),
-    NOT_HAS_PERMISSION(403000,"没有该操作权限！"),
+    REQUEST_PARAMS_NOT_EXIST(400001, "缺少请求参数！"),
+    REQUEST_PARAMS_IS_NULL(400002, "请求参数为空！"),
+    REQUEST_PARAMS_TYPE_ERROR(400003, "请求参数类型错误！"),
+    REQUEST_PARAMS_ERROR(400004, "请求参数错误！"),
+    REQUEST_DATE_NOT_EXIST(400005, "请求数据不存在！"),
+    NOT_LOGIN(401000, "账号未登录！"),
+    NOT_HAS_PERMISSION(403000, "没有该操作权限！"),
     // Auth
-    USERNAME_PASSWORD_ERROR(401001,"用户名或密码错误！"),
-    USER_IS_DISABLED(401002,"账号已被禁用，请联系管理员！"),
-            ;
-
+    USERNAME_PASSWORD_ERROR(401001, "用户名或密码错误！"),
+    USER_IS_DISABLED(401002, "账号已被禁用，请联系管理员！"),
+    TOKEN_IS_EXPIRED(401003, "AccessToken已过期！"),
+    TOKEN_VALIDATE_FAIL(401004, "无效的Token！"),
+    ;
 
 
     private final int code;

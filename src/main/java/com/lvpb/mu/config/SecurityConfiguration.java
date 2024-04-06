@@ -2,7 +2,7 @@ package com.lvpb.mu.config;
 
 import com.lvpb.mu.config.properties.SecurityProperties;
 import com.lvpb.mu.constant.MuConstant;
-import com.lvpb.mu.security.ThreadLocalSecurityContextHolderStrategy;
+import com.lvpb.mu.security.ContextHolderStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -99,7 +99,7 @@ public class SecurityConfiguration {
         MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
         methodInvokingFactoryBean.setTargetClass(SecurityContextHolder.class);
         methodInvokingFactoryBean.setTargetMethod(SECURITY_SET_STRATEGY_METHOD_NAME);
-        methodInvokingFactoryBean.setArguments(ThreadLocalSecurityContextHolderStrategy.class.getName());
+        methodInvokingFactoryBean.setArguments(ContextHolderStrategy.class.getName());
         return methodInvokingFactoryBean;
     }
 

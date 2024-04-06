@@ -101,7 +101,8 @@ mu:
   security:
     token-name: Authorization
     token-prefix: 'Bearer '
-    token-expire-time: 3600000
+    token-expire: 7200 # 两小时
+    refresh-token-expire: 604800 # 7天
   thread:
     core-pool-size: 8
     max-pool-size: 16

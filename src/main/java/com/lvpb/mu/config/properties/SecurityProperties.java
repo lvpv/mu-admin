@@ -29,14 +29,19 @@ public class SecurityProperties {
     private String tokenPrefix = "Bearer ";
 
     /**
+     * 生成token密钥
+     */
+    private String tokenSecret = "mu-admin-token-secret";
+
+    /**
      * token过期时间，单位：秒，默认2小时
      */
-    private Long tokenExpireTime = 7200L;
+    private int tokenExpire = 7200;
 
     /**
      * refreshToken过期时间，单位：秒，默认7天
      */
-    private Long refreshTokenExpireTime = 7 * 24 * 60 * 60L;
+    private int refreshTokenExpire = 7 * 24 * 60 * 60;
 
     /**
      * 密码加密强度
