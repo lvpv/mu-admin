@@ -51,10 +51,10 @@ public class PageRequest implements Serializable {
         @Schema(description = "排序字段", example = "create_time")
         @NotBlank(message = "排序字段不能为空")
         @Length(max = 30, message = "排序字段长度不能超过30字符")
-        private String column;
+        private String column = "create_time";
 
         @Schema(description = "排序规则(true:升序,false:降序)", example = "true", defaultValue = "true")
         @NotNull(message = "排序规则不能为空")
-        private boolean asc = true;
+        private boolean asc = false;
     }
 }

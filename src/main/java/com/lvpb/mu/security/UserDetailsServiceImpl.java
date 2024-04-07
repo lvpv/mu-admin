@@ -3,7 +3,7 @@ package com.lvpb.mu.security;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.lvpb.mu.modules.system.domain.convert.UserConvert;
+import com.lvpb.mu.modules.system.convert.UserConvert;
 import com.lvpb.mu.modules.system.domain.entity.Menu;
 import com.lvpb.mu.modules.system.domain.entity.Role;
 import com.lvpb.mu.modules.system.domain.entity.User;

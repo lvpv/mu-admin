@@ -13,7 +13,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StatusEnum {
+
     NORMAL(0, "正常"),
+
     DISABLED(1, "禁用"),
     ;
 

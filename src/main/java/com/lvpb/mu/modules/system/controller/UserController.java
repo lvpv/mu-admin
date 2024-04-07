@@ -1,7 +1,7 @@
 package com.lvpb.mu.modules.system.controller;
 
 import com.lvpb.mu.common.domain.Result;
-import com.lvpb.mu.modules.system.domain.convert.UserConvert;
+import com.lvpb.mu.modules.system.convert.UserConvert;
 import com.lvpb.mu.modules.system.domain.entity.User;
 import com.lvpb.mu.modules.system.domain.response.UserResponse;
 import com.lvpb.mu.modules.system.service.UserService;

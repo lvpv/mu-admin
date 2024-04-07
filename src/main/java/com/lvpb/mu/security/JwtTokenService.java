@@ -16,6 +16,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 
 /**
  * @author lvpb
@@ -26,7 +27,7 @@ import javax.crypto.SecretKey;
 
 @Component
 @AllArgsConstructor
-public class TokenService {
+public class JwtTokenService {
 
     private final SecurityProperties securityProperties;
 
@@ -47,18 +48,18 @@ public class TokenService {
 
     }
 
-    public String generateAccessToken(Long userId, String username) {
-        return generateToken(userId, username, securityProperties.getTokenExpire());
+    public String generateAccessToken(Date date,Long userId, String username) {
+        return generateToken(date,userId, username, securityProperties.getTokenExpire());
     }
 
-    public String generateRefreshToken(Long userId, String username) {
-        return generateToken(userId, username, securityProperties.getRefreshTokenExpire());
+    public String generateRefreshToken(Date date,Long userId, String username) {
+        return generateToken(date,userId, username, securityProperties.getRefreshTokenExpire());
     }
 
 
-    private String generateToken(Long userId, String username, int expire) {
-        DateTime now = DateUtil.date();
-        DateTime expireTime = DateUtil.offsetSecond(now, expire);
+    private String generateToken(Date date,Long userId, String username, int expire) {
+        // DateTime now = DateUtil.date();
+        DateTime expireTime = DateUtil.offsetSecond(date, expire);
         return Jwts.builder()
                 .setSubject("Authentication")
                 .claim("userId", userId)

@@ -1,4 +1,4 @@
-package com.lvpb.mu.modules.system.domain.convert;
+package com.lvpb.mu.modules.system.convert;
 
 import com.lvpb.mu.modules.system.domain.entity.User;
 import com.lvpb.mu.modules.system.domain.response.UserResponse;
