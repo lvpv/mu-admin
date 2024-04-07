@@ -24,4 +24,6 @@ public interface UserConvert {
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "permissions", ignore = true)
     AuthUser convertAuthUser(User user);
+
+    UserResponse convertResponse(AuthUser authUser);
 }

@@ -1,5 +1,6 @@
 package com.lvpb.mu.config;
 
+import com.alibaba.ttl.TtlRunnable;
 import com.lvpb.mu.config.properties.ThreadPoolProperties;
 import com.lvpb.mu.constant.MuConstant;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,7 +23,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 @EnableConfigurationProperties(ThreadPoolProperties.class)
 public class ThreadPoolConfiguration {
-    @Bean
+
+
+    @Bean(MuConstant.THREAD_POOL_BEAN_NAME)
+    @SuppressWarnings("NullableProblems")
     public ThreadPoolTaskExecutor threadPoolExecutor(ThreadPoolProperties properties) {
         int processors = Runtime.getRuntime().availableProcessors();
         int corePoolSize = Optional.of(properties.getCorePoolSize()).orElse(2 * processors + 1);
@@ -39,6 +43,7 @@ public class ThreadPoolConfiguration {
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         //当调度器shutdown被调用时等待当前被调度的任务完成
         executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setTaskDecorator(TtlRunnable::get);
         executor.initialize();
         return executor;
     }

@@ -13,7 +13,7 @@
         <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
         <result column="login_region" jdbcType="VARCHAR" property="loginRegion"/>
         <result column="user_agent" jdbcType="VARCHAR" property="userAgent"/>
-        <result column="login_result" jdbcType="BOOLEAN" property="loginResult"/>
+        <result column="login_result" jdbcType="INTEGER" property="loginResult"/>
         <result column="fail_reason" jdbcType="VARCHAR" property="failReason"/>
         <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
         <result column="creator" jdbcType="BIGINT" property="creator"/>

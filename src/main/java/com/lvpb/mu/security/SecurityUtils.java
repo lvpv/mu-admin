@@ -1,16 +1,15 @@
 package com.lvpb.mu.security;
 
 import cn.hutool.core.collection.CollUtil;
-import com.lvpb.mu.exception.BusinessException;
-import com.lvpb.mu.exception.ErrorCode;
 import com.lvpb.mu.modules.system.domain.entity.Role;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lvpb
@@ -30,7 +29,7 @@ public class SecurityUtils {
         Authentication authentication = securityContext.getAuthentication();
         Object principal = authentication.getPrincipal();
         if (Objects.isNull(principal) || !(principal instanceof AuthUser)) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN);
+            return null;
         }
         return (AuthUser) principal;
     }
@@ -41,7 +40,7 @@ public class SecurityUtils {
      * @return 用户编号
      */
     public static Long getLoginUserId() {
-        return getLoginUser().getUserId();
+        return Optional.ofNullable(getLoginUser()).isPresent() ? getLoginUser().getUserId() : null;
     }
 
     /**
@@ -50,7 +49,7 @@ public class SecurityUtils {
      * @return username
      */
     public static String getLoginUsername() {
-        return getLoginUser().getUsername();
+        return Optional.ofNullable(getLoginUser()).isPresent() ? getLoginUser().getUsername() : null;
     }
 
     /**
@@ -59,7 +58,7 @@ public class SecurityUtils {
      * @return 真实姓名
      */
     public static String getLoginUserRealName() {
-        return getLoginUser().getRealName();
+        return Optional.ofNullable(getLoginUser()).isPresent() ? getLoginUser().getRealName() : null;
     }
 
     /**
@@ -68,7 +67,7 @@ public class SecurityUtils {
      * @return 是否为管理员
      */
     public static boolean isAdmin() {
-        return getLoginUser().getAdmin();
+        return Optional.ofNullable(getLoginUser()).isPresent() ? getLoginUser().getAdmin() : false;
     }
 
 
@@ -78,7 +77,7 @@ public class SecurityUtils {
      * @return 角色列表
      */
     public static Set<Role> getLoginUserRoles() {
-        Set<Role> roles = getLoginUser().getRoles();
+        Set<Role> roles = Optional.ofNullable(getLoginUser()).isPresent() ? getLoginUser().getRoles() : null;
         if (CollUtil.isEmpty(roles)) {
             return new HashSet<>(0);
         }
@@ -91,10 +90,29 @@ public class SecurityUtils {
      * @return 权限列表
      */
     public static Set<String> getLoginUserPermissions() {
-        Set<String> roles = getLoginUser().getPermissions();
+        Set<String> roles = Optional.ofNullable(getLoginUser()).isPresent() ? getLoginUser().getPermissions() : null;
         if (CollUtil.isEmpty(roles)) {
             return new HashSet<>(0);
         }
         return roles;
+    }
+
+    public static void setLoginUser(AuthUser loginUser, HttpServletRequest request) {
+        // 创建 Authentication，并设置到上下文
+        Authentication authentication = buildAuthentication(loginUser, request);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
+        // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
+        // WebFrameworkUtils.setLoginUserId(request, loginUser.getId());
+        // WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
+    }
+
+    private static Authentication buildAuthentication(AuthUser loginUser, HttpServletRequest request) {
+        // 创建 UsernamePasswordAuthenticationToken 对象
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginUser, null, Collections.emptyList());
+        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        return authenticationToken;
     }
 }

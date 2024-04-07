@@ -1,11 +1,10 @@
 package com.lvpb.mu.modules.system.controller;
 
 import com.lvpb.mu.common.domain.Result;
-import com.lvpb.mu.modules.system.domain.entity.Token;
 import com.lvpb.mu.modules.system.domain.request.LoginRequest;
+import com.lvpb.mu.modules.system.domain.response.LoginResponse;
 import com.lvpb.mu.modules.system.service.AuthService;
 import com.lvpb.mu.security.JwtTokenService;
-import com.lvpb.mu.utils.IpUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -38,9 +37,9 @@ public class AuthController {
 
     @Operation(summary = "账号密码登录")
     @PostMapping("/login")
-    public Result<Token> accountLogin(@Valid LoginRequest loginRequest, HttpServletRequest request) {
-        Token token = authService.accountLogin(loginRequest,request);
-        return Result.success(token);
+    public Result<LoginResponse> accountLogin(@Valid LoginRequest loginRequest, HttpServletRequest request) {
+        LoginResponse response = authService.accountLogin(loginRequest, request);
+        return Result.success(response);
     }
 
     @Operation(summary = "验证token")

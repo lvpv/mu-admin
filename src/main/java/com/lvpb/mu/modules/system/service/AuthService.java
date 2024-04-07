@@ -1,7 +1,7 @@
 package com.lvpb.mu.modules.system.service;
 
-import com.lvpb.mu.modules.system.domain.entity.Token;
 import com.lvpb.mu.modules.system.domain.request.LoginRequest;
+import com.lvpb.mu.modules.system.domain.response.LoginResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -12,5 +12,5 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public interface AuthService {
 
-    Token accountLogin(LoginRequest loginRequest, HttpServletRequest request);
+    LoginResponse accountLogin(LoginRequest loginRequest, HttpServletRequest request);
 }
