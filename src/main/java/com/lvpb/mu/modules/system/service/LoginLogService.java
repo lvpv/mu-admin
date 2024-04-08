@@ -2,6 +2,8 @@ package com.lvpb.mu.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lvpb.mu.modules.system.domain.entity.LoginLog;
+import com.lvpb.mu.modules.system.domain.request.LoginLogPageRequest;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * @author lvpb
@@ -13,4 +15,5 @@ public interface LoginLogService extends IService<LoginLog> {
 
     void saveLoginLog(LoginLog loginLog);
 
+    Page<LoginLog> getLoginLogByPage(LoginLogPageRequest pageRequest);
 }

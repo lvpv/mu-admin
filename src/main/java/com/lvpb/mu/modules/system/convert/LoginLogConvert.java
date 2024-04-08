@@ -1,7 +1,10 @@
 package com.lvpb.mu.modules.system.convert;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lvpb.mu.common.domain.PageResult;
 import com.lvpb.mu.modules.system.domain.entity.LoginLog;
 import com.lvpb.mu.modules.system.domain.request.LoginLogRequest;
+import com.lvpb.mu.modules.system.domain.response.LoginLogResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -24,4 +27,8 @@ public interface LoginLogConvert {
     @Mapping(target = "creator", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     LoginLog convert(LoginLogRequest loginLogRequest);
+
+    LoginLogResponse convertResponse(LoginLog loginLog);
+
+    PageResult<LoginLogResponse> convertPage(Page<LoginLog> loginLogPage);
 }

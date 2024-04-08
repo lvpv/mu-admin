@@ -35,7 +35,7 @@ public class PageResult<T> implements Serializable {
      * 当前页码
      */
     @Schema(description = "当前页码")
-    private Long page;
+    private Long current;
 
     /**
      * 每页数据条数

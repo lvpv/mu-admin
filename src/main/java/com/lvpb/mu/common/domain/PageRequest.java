@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class PageRequest implements Serializable {
     @Valid
     @Schema(description = "排序规则集合")
     @Size(max = 10, message = "排序字段最多10个")
-    private List<SortItem> sortItems;
+    private List<SortItem> sortItems = Collections.emptyList();
 
     @Data
     @Schema(description = "排序字段")
