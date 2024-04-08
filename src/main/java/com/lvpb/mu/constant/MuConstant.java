@@ -12,4 +12,6 @@ public interface MuConstant {
     String THREAD_NAME_PREFIX = "mu-thread-";
     String ANY_PATH = "/**";
     String THREAD_POOL_BEAN_NAME = "muThreadPoolExecutor";
+    String USERNAME_KEY = "username";
+    String USER_ID_KEY = "userId";
 }

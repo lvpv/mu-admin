@@ -80,6 +80,9 @@ public class TokenServiceImpl extends ServiceImpl<TokenMapper, Token> implements
         token.setAccessTokenExpires(tokenExpire);
         token.setRefreshToken(refreshToken);
         token.setRefreshTokenExpires(refreshTokenExpire);
+        token.setCreator(authUser.getUserId());
+        token.setCreateTime(DateUtil.date());
+        token.setUpdater(authUser.getUserId());
         return token;
     }
 }

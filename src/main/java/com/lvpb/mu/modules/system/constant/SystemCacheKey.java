@@ -8,5 +8,5 @@ package com.lvpb.mu.modules.system.constant;
  */
 public interface SystemCacheKey {
 
-    String LOGIN_USER_CACHE_KEY = "system:auth:user:";
+    String LOGIN_USER_CACHE_KEY = "system:auth:user:%s";
 }

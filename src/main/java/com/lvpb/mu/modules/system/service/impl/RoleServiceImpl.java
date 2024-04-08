@@ -24,7 +24,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         if (Objects.isNull(userId)) {
             return Collections.emptySet();
         }
-        Set<Role> roles = baseMapper.findRolesByUserId(userId);
-        return null;
+        return baseMapper.findRolesByUserId(userId);
     }
 }

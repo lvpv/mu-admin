@@ -34,14 +34,14 @@ public class SwaggerConfiguration {
     @Bean
     public OpenAPI createApi(SwaggerProperties properties, SecurityProperties securityProperties) {
         Map<String, SecurityScheme> schemes = buildSecuritySchemes(securityProperties);
-        return new OpenAPI()
+        OpenAPI openAPI = new OpenAPI()
                 // 接口信息
                 .info(buildInfo(properties))
                 // 接口安全配置
                 .components(new Components().securitySchemes(schemes))
                 .addSecurityItem(new SecurityRequirement().addList(HttpHeaders.AUTHORIZATION));
-        // securitySchemas.keySet().forEach(key -> openAPI.addSecurityItem(new SecurityRequirement().addList(key)));
-        // return openAPI;
+        schemes.keySet().forEach(key -> openAPI.addSecurityItem(new SecurityRequirement().addList(key)));
+         return openAPI;
     }
 
     private Info buildInfo(SwaggerProperties properties) {

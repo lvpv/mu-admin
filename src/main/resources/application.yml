@@ -103,6 +103,7 @@ mu:
     token-prefix: 'Bearer '
     token-expire: 7200 # 两小时
     refresh-token-expire: 604800 # 7天
+    token-secret: 88Q1bHFyESuQofm48A814xmz9625vzV9p8Imfh3l0CTz15xsIjIsBKSBxDrfA3CT
   thread:
     core-pool-size: 8
     max-pool-size: 16

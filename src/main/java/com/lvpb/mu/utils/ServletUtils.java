@@ -25,6 +25,12 @@ public class ServletUtils {
         String result = JSONUtil.toJsonStr(error);
         JakartaServletUtil.write(response, result, MediaType.APPLICATION_JSON_VALUE);
     }
+    public static void writeError(int code,String message, HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
+        Result<Void> error = Result.error(code,message);
+        String result = JSONUtil.toJsonStr(error);
+        JakartaServletUtil.write(response, result, MediaType.APPLICATION_JSON_VALUE);
+    }
 
     public static <T> void writeResult(Result<T> result, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");

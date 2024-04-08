@@ -2,6 +2,7 @@ package com.lvpb.mu.modules.system.service;
 
 import com.lvpb.mu.modules.system.domain.request.LoginRequest;
 import com.lvpb.mu.modules.system.domain.response.LoginResponse;
+import com.lvpb.mu.modules.system.domain.response.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -13,4 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface AuthService {
 
     LoginResponse accountLogin(LoginRequest loginRequest, HttpServletRequest request);
+
+    UserResponse getUserInfo();
+
 }

@@ -3,6 +3,7 @@ package com.lvpb.mu.config;
 import com.lvpb.mu.config.properties.SecurityProperties;
 import com.lvpb.mu.constant.MuConstant;
 import com.lvpb.mu.security.ContextHolderStrategy;
+import com.lvpb.mu.security.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -17,6 +18,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author lvpb
@@ -48,6 +52,8 @@ public class SecurityConfiguration {
 
     private final AccessDeniedHandler accessDeniedHandler;
 
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+
     private final static String[] STATIC_PATH = {
             "/**.html",
             "/**.js",
@@ -59,7 +65,7 @@ public class SecurityConfiguration {
             "/druid/**"
     };
     private final static String DRUID_LOGIN_PATH = "/druid/submitLogin";
-    private final static String AUTH_LOGIN_PATH = "/system/**";
+    private final static String AUTH_LOGIN_PATH = "/system/auth/login";
     private final static String SECURITY_SET_STRATEGY_METHOD_NAME = "setStrategyName";
 
     @Bean
@@ -80,7 +86,8 @@ public class SecurityConfiguration {
         // 禁用csrf和开启cors
         http.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 // 禁用Session
-//                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .exceptionHandling(c -> c.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler));
         http.authorizeHttpRequests(authorize -> authorize
@@ -91,6 +98,8 @@ public class SecurityConfiguration {
                 .requestMatchers(securityProperties.getIgnoreUrls().toArray(new String[0])).permitAll()
                 // 放行登录接口
                 .anyRequest().authenticated());
+        // 添加token过滤器
+        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
